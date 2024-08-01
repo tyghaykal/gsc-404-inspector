@@ -5,7 +5,9 @@ import pandas as pd
 # Path to your credentials file
 KEY_FILE = 'google.json'
 SCOPES = ['https://www.googleapis.com/auth/webmasters.readonly']
-SITE_URL = 'https://redcomm.co.id/'
+
+# Change the domain
+SITE_URL = 'https://domain.co.id/'
 
 # Authenticate and build the service
 credentials = service_account.Credentials.from_service_account_file(KEY_FILE, scopes=SCOPES)
@@ -18,7 +20,9 @@ def get_referring_pages(service, url, site_url):
             "inspectionUrl": url,
             "siteUrl": site_url
         }
+        print(inspection_request)
         response = service.urlInspection().index().inspect(body=inspection_request).execute()
+        print(response)
         referring_pages = response.get('inspectionResult', {}).get('indexStatusResult', {}).get('referringUrls',[])
         #append referring pages array to string
         referring_pages_str = ','.join(referring_pages)
